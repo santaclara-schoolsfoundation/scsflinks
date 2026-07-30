@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santa Clara Schools Foundation — Community Links</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=EB+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EDEDED;
+    --panel: #FBFBFA;
+    --panel-hover: #F2F5FA;
+    --navy: #2F5590;
+    --navy-dark: #1F3A66;
+    --rule: #9AA6B4;
+    --text: #1A1A1A;
+    --muted: #6E6E6E;
+    --hairline: #D6D6D6;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 56px 20px;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  /* ---- Header / wordmark ---- */
+  .header {
+    text-align: center;
+  }
+
+  .wordmark {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 76px;
+    color: var(--navy);
+    line-height: 1;
+    margin: 0;
+    border-top: 2px solid var(--rule);
+    border-bottom: 2px solid var(--rule);
+    padding: 6px 0;
+    letter-spacing: 0.01em;
+  }
+
+  .subname {
+    font-family: 'Playfair Display', serif;
+    font-variant: small-caps;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: 0.06em;
+    color: #8A8A8A;
+    margin: 10px 0 0 0;
+  }
+
+  .tagline {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 17px;
+    color: #4A4A4A;
+    margin: 18px 0 0 0;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  /* ---- Section label ---- */
+  .section-label {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--navy);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* ---- Links list ---- */
+  .stations {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .station {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--text);
+    overflow: hidden;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  .station::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--navy);
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+  }
+
+  .station:hover {
+    background: var(--panel-hover);
+    border-color: var(--navy);
+    transform: translateX(2px);
+  }
+
+  .station:hover::before {
+    transform: scaleY(1);
+  }
+
+  .station .logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    border: 1px solid var(--hairline);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    overflow: hidden;
+  }
+
+  .station .logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .station .logo.mono {
+    background: var(--navy);
+    border: none;
+  }
+
+  .station .logo.mono span {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: #FFFFFF;
+  }
+
+  .station .info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .station .info .label {
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: var(--navy-dark);
+  }
+
+  .station .info .desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .station .go {
+    font-family: 'Playfair Display', serif;
+    font-variant: small-caps;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .station:hover .go {
+    opacity: 1;
+    color: var(--navy);
+  }
+
+  /* ---- Footer ---- */
+  .footer {
+    text-align: center;
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline);
+  }
+
+  @media (max-width: 480px) {
+    .wordmark { font-size: 54px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="header">
+    <h1 class="wordmark">SCSF</h1>
+    <p class="subname">Santa Clara Schools Foundation</p>
+    <p class="tagline">Serving the students, staff, and community of SCUSD since 1992.</p>
+  </div>
+
+  <p class="section-label">Community Links</p>
+
+  <div class="stations" id="stationList"></div>
+
+  <div class="footer">SANTA CLARA SCHOOLS FOUNDATION · SUPPORT LOCAL STUDENTS &amp; TEACHERS</div>
+
+</div>
+
+<script>
+  // ---------------------------------------------------------
+  // EDIT THIS LIST to add, remove, or reorder SCSF's links.
+  // ---------------------------------------------------------
+  const stations = [
+    { label: "Santa Clara Schools Foundation", desc: "Our official website — impact, partners, and how to give", url: "https://www.santaclaraschoolsfoundation.org/" },
+    { label: "Bay FC: Back to School Match", desc: "SCUSD night at Bay FC — tickets via Tixr", url: "https://www.tixr.com/groups/bayfc/sales/-638", logo: "logos/bayfc.png" },
+    { label: "San Jose Giants Game",         desc: "Ticket sales — use code SCSF at checkout",  url: "https://mlb.tickets.com/schedule/?agency=MILB_MPV&orgid=56749#/sales_group_code;salesGroupId=12960", logo: "logos/sj-giants.png" },
+    { label: "Mountain Mike's Pizza",        desc: "Fundraising night — a share of sales gives back", url: "https://www.mountainmikespizza.com/fundraising/", logo: "logos/mountain-mikes.png" },
+    { label: "Monster Dash & Bash 5K",       desc: "Mission College Halloween 5K, Oct 10, 2026", url: "https://missioncollege.edu/student-services/outreach/5k.html", logo: "logos/mission-college.png" },
+    { label: "The Firehouse Run",            desc: "Santa Clara 5K/10K benefiting SCUSD schools", url: "https://www.santaclarafirefighters.org/in-your-community/our-events/the-firehouse-run", logo: "logos/firehouse.png" },
+    { label: "Mission City FCU",             desc: "Community events & partnership highlights", url: "https://www.missioncityfcu.org/community/", logo: "logos/mission-city-fcu.png" },
+  ];
+
+  const list = document.getElementById('stationList');
+
+  stations.forEach((s) => {
+    const a = document.createElement('a');
+    a.className = 'station';
+    a.href = s.url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    const logoHtml = s.logo
+      ? `<span class="logo"><img src="${s.logo}" alt="${s.label} logo"></span>`
+      : `<span class="logo mono"><span>${s.label.trim().charAt(0).toUpperCase()}</span></span>`;
+    a.innerHTML = `
+      ${logoHtml}
+      <span class="info">
+        <div class="label">${s.label}</div>
+        <div class="desc">${s.desc}</div>
+      </span>
+      <span class="go">Visit →</span>
+    `;
+    list.appendChild(a);
+  });
+</script>
+
+</body>
+</html>
