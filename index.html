@@ -106,15 +106,9 @@
 
   .station {
     position: relative;
-    display: flex;
-    align-items: center;
-    gap: 16px;
     background: var(--panel);
     border: 1px solid var(--hairline);
     border-radius: 6px;
-    padding: 16px 20px;
-    text-decoration: none;
-    color: var(--text);
     overflow: hidden;
     transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
   }
@@ -127,16 +121,30 @@
     background: var(--navy);
     transform: scaleY(0);
     transition: transform 0.2s ease;
+    z-index: 1;
   }
 
-  .station:hover {
+  .station:hover,
+  .station.open {
     background: var(--panel-hover);
     border-color: var(--navy);
-    transform: translateX(2px);
   }
 
-  .station:hover::before {
+  .station:hover::before,
+  .station.open::before {
     transform: scaleY(1);
+  }
+
+  .station-head {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 16px 20px;
+    cursor: pointer;
+    color: var(--text);
   }
 
   .station .logo {
@@ -191,20 +199,71 @@
     color: var(--muted);
   }
 
-  .station .go {
+  .station .chev {
     font-family: 'Playfair Display', serif;
-    font-variant: small-caps;
     font-size: 13px;
-    font-weight: 600;
     color: var(--muted);
-    opacity: 0;
-    transition: opacity 0.2s ease;
     flex-shrink: 0;
+    transition: transform 0.25s ease, color 0.2s ease;
   }
 
-  .station:hover .go {
-    opacity: 1;
+  .station:hover .chev,
+  .station.open .chev {
     color: var(--navy);
+  }
+
+  .station.open .chev {
+    transform: rotate(180deg);
+  }
+
+  /* ---- Flyer preview panel ---- */
+  .preview {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .station.open .preview {
+    max-height: 900px;
+  }
+
+  .preview-inner {
+    padding: 0 20px 20px 20px;
+  }
+
+  .preview-inner img {
+    display: block;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--hairline);
+    margin-bottom: 14px;
+  }
+
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .open-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    font-variant: small-caps;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    padding: 10px 18px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+
+  .open-link:hover {
+    background: var(--navy-dark);
   }
 
   /* ---- Footer ---- */
@@ -252,34 +311,83 @@
   // ---------------------------------------------------------
   const stations = [
     { label: "Santa Clara Schools Foundation", desc: "Our official website — impact, partners, and how to give", url: "https://www.santaclaraschoolsfoundation.org/" },
-    { label: "Bay FC: Back to School Match", desc: "SCUSD night at Bay FC — tickets via Tixr", url: "https://www.tixr.com/groups/bayfc/sales/-638", logo: "logos/bayfc.png" },
-    { label: "San Jose Giants Game",         desc: "Ticket sales — use code SCSF at checkout",  url: "https://mlb.tickets.com/schedule/?agency=MILB_MPV&orgid=56749#/sales_group_code;salesGroupId=12960", logo: "logos/sj-giants.png" },
-    { label: "Mountain Mike's Pizza",        desc: "Fundraising night — a share of sales gives back", url: "https://www.mountainmikespizza.com/fundraising/", logo: "logos/mountain-mikes.png" },
-    { label: "Monster Dash & Bash 5K",       desc: "Mission College Halloween 5K, Oct 10, 2026", url: "https://missioncollege.edu/student-services/outreach/5k.html", logo: "logos/mission-college.png" },
-    { label: "The Firehouse Run",            desc: "Santa Clara 5K/10K benefiting SCUSD schools", url: "https://www.santaclarafirefighters.org/in-your-community/our-events/the-firehouse-run", logo: "logos/firehouse.png" },
-    { label: "Mission City FCU",             desc: "Community events & partnership highlights", url: "https://www.missioncityfcu.org/community/", logo: "logos/mission-city-fcu.png" },
+    { label: "Bay FC: Back to School Match", desc: "Aug 23, 2026 at PayPal Park — SCUSD staff discount, tickets via Tixr", url: "https://www.tixr.com/groups/bayfc/sales/-638", logo: "logos/bayfc.png", flyer: "flyers/bayfc.jpg" },
+    { label: "San Jose Giants: Pack the Park", desc: "Aug 29, 2026 at Excite Ballpark — use code SCSF, $21 tickets", url: "https://mlb.tickets.com/schedule/?agency=MILB_MPV&orgid=56749#/sales_group_code;salesGroupId=12960", logo: "logos/sj-giants.png", flyer: "flyers/sj-giants.jpg" },
+    { label: "Mountain Mike's Pizza",        desc: "Class parties, staff meetings & school fundraising nights, year-round", logo: "logos/mountain-mikes.png", flyer: "flyers/mountain-mikes.jpg",
+      links: [
+        { label: "Fundraising Info ↗", url: "https://www.mountainmikespizza.com/fundraising/" },
+        { label: "Enter Raffle ↗", url: "https://docs.google.com/forms/d/e/1FAIpQLScn1dFWnQDlfDHinUsRZ1Ohsy7LiiVgskT7eCD2twjtkM1waA/viewform" },
+      ]
+    },
+    { label: "Monster Dash & Bash 5K",       desc: "Mission College Halloween 5K, Saturday, Oct 10, 2026", url: "https://missioncollege.edu/student-services/outreach/5k.html", logo: "logos/mission-college.png", flyer: "flyers/mission-college.jpg" },
+    { label: "The Firehouse Run",            desc: "5K/10K at Mission College, Nov 15, 2026 — code SCUSD2026 for 20% off", url: "https://raceroster.com/events/2026/139445/firehouse-run-2026", logo: "logos/firehouse.png", flyer: "flyers/firehouse.jpg" },
+    { label: "Mission City FCU",             desc: "$200 new-member offer & 0% APR classroom-supply loans for SCUSD staff", url: "https://www.missioncityfcu.org/community/", logo: "logos/mission-city-fcu.png", flyer: "flyers/mission-city-fcu.jpg" },
+    { label: "49ers Tickets Raffle",         desc: "Enter for a chance to win 49ers tickets", url: "https://docs.google.com/forms/d/e/1FAIpQLSdCmCbxexmPAdHzSXAJ-UqYp0Iqj604IK6bubbDD5CY4Xh4Bw/viewform?usp=sharing&ouid=117501599297343324851", logo: "logos/49ers.png" },
   ];
 
   const list = document.getElementById('stationList');
 
-  stations.forEach((s) => {
-    const a = document.createElement('a');
-    a.className = 'station';
-    a.href = s.url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
+  stations.forEach((s, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'station';
+
     const logoHtml = s.logo
       ? `<span class="logo"><img src="${s.logo}" alt="${s.label} logo"></span>`
       : `<span class="logo mono"><span>${s.label.trim().charAt(0).toUpperCase()}</span></span>`;
-    a.innerHTML = `
-      ${logoHtml}
-      <span class="info">
-        <div class="label">${s.label}</div>
-        <div class="desc">${s.desc}</div>
-      </span>
-      <span class="go">Visit →</span>
-    `;
-    list.appendChild(a);
+
+    if (s.flyer) {
+      // Card with expandable flyer preview: hover (desktop) or tap (mobile)
+      // reveals the flyer; button(s) below then open the real link(s).
+      wrap.id = `station-${i}`;
+      const buttonsHtml = s.links
+        ? s.links.map(l => `<a class="open-link" href="${l.url}" target="_blank" rel="noopener noreferrer">${l.label}</a>`).join('')
+        : `<a class="open-link" href="${s.url}" target="_blank" rel="noopener noreferrer">Open link ↗</a>`;
+      wrap.innerHTML = `
+        <button class="station-head" type="button" aria-expanded="false">
+          ${logoHtml}
+          <span class="info">
+            <div class="label">${s.label}</div>
+            <div class="desc">${s.desc}</div>
+          </span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="preview">
+          <div class="preview-inner">
+            <img src="${s.flyer}" alt="${s.label} flyer" loading="lazy">
+            <div class="link-row">${buttonsHtml}</div>
+          </div>
+        </div>
+      `;
+      const head = wrap.querySelector('.station-head');
+      const openIt = () => { wrap.classList.add('open'); head.setAttribute('aria-expanded', 'true'); };
+      const closeIt = () => { wrap.classList.remove('open'); head.setAttribute('aria-expanded', 'false'); };
+      // Desktop: reveal on hover
+      wrap.addEventListener('mouseenter', openIt);
+      wrap.addEventListener('mouseleave', closeIt);
+      // Mobile / click: toggle reveal, then a second tap on "Open link" confirms navigation
+      head.addEventListener('click', () => {
+        wrap.classList.contains('open') ? closeIt() : openIt();
+      });
+    } else {
+      // No flyer on file — plain direct link
+      const a = document.createElement('a');
+      a.className = 'station-head';
+      a.style.textDecoration = 'none';
+      a.href = s.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.innerHTML = `
+        ${logoHtml}
+        <span class="info">
+          <div class="label">${s.label}</div>
+          <div class="desc">${s.desc}</div>
+        </span>
+        <span class="chev">↗</span>
+      `;
+      wrap.appendChild(a);
+    }
+
+    list.appendChild(wrap);
   });
 </script>
 
