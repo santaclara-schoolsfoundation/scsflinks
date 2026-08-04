@@ -236,7 +236,31 @@
     width: 100%;
     border-radius: 6px;
     border: 1px solid var(--hairline);
-    margin-bottom: 14px;
+    margin-bottom: 8px;
+    -webkit-touch-callout: default;
+    -webkit-user-select: auto;
+    user-select: auto;
+  }
+
+  .save-hint {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 14px 0;
+  }
+
+  .links-hint {
+    font-family: 'Playfair Display', serif;
+    font-variant: small-caps;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    color: var(--navy);
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
   .link-row {
@@ -322,7 +346,7 @@
     { label: "Monster Dash & Bash 5K",       desc: "Mission College Halloween 5K, Saturday, Oct 10, 2026", url: "https://missioncollege.edu/student-services/outreach/5k.html", logo: "logos/mission-college.png", flyer: "flyers/mission-college.jpg" },
     { label: "The Firehouse Run",            desc: "5K/10K at Mission College, Nov 15, 2026 — code SCUSD2026 for 20% off", url: "https://raceroster.com/events/2026/139445/firehouse-run-2026", logo: "logos/firehouse.png", flyer: "flyers/firehouse.jpg" },
     { label: "Mission City FCU",             desc: "$200 new-member offer & 0% APR classroom-supply loans for SCUSD staff", url: "https://www.missioncityfcu.org/community/", logo: "logos/mission-city-fcu.png", flyer: "flyers/mission-city-fcu.jpg" },
-    { label: "49ers Tickets Raffle",         desc: "Enter for a chance to win 49ers tickets", url: "https://docs.google.com/forms/d/e/1FAIpQLSdCmCbxexmPAdHzSXAJ-UqYp0Iqj604IK6bubbDD5CY4Xh4Bw/viewform?usp=sharing&ouid=117501599297343324851", logo: "logos/49ers.png" },
+    { label: "49ers Tickets Raffle",         desc: "Enter for a chance to win 49ers tickets", url: "https://docs.google.com/forms/d/e/1FAIpQLSdCmCbxexmPAdHzSXAJ-UqYp0Iqj604IK6bubbDD5CY4Xh4Bw/viewform?usp=preview", logo: "logos/49ers.png" },
   ];
 
   const list = document.getElementById('stationList');
@@ -354,6 +378,8 @@
         <div class="preview">
           <div class="preview-inner">
             <img src="${s.flyer}" alt="${s.label} flyer" loading="lazy">
+            <p class="save-hint">Press and hold the flyer to save it to your phone</p>
+            <p class="links-hint">↓ Links from the QR codes above</p>
             <div class="link-row">${buttonsHtml}</div>
           </div>
         </div>
