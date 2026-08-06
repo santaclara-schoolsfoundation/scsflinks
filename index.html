@@ -347,6 +347,7 @@
     { label: "The Firehouse Run",            desc: "5K/10K at Mission College, Nov 15, 2026 — code SCUSD2026 for 20% off", url: "https://raceroster.com/events/2026/139445/firehouse-run-2026", logo: "logos/firehouse.png", flyer: "flyers/firehouse.jpg" },
     { label: "Mission City FCU",             desc: "$200 new-member offer & 0% APR classroom-supply loans for SCUSD staff", url: "https://www.missioncityfcu.org/community/", logo: "logos/mission-city-fcu.png", flyer: "flyers/mission-city-fcu.jpg" },
     { label: "49ers Tickets Raffle",         desc: "Enter for a chance to win 49ers tickets", url: "https://docs.google.com/forms/d/e/1FAIpQLSdCmCbxexmPAdHzSXAJ-UqYp0Iqj604IK6bubbDD5CY4Xh4Bw/viewform?usp=preview", logo: "logos/49ers.png" },
+    { label: "Columbia Employee Store",      desc: "40% off Columbia, SOREL, Mountain Hardwear & prAna — Aug 7–30 in Union City, bring this pass + proof of affiliation, up to 4 guests", logo: "logos/columbia.png", flyer: "flyers/columbia.jpg" },
   ];
 
   const list = document.getElementById('stationList');
@@ -363,9 +364,10 @@
       // Card with expandable flyer preview: hover (desktop) or tap (mobile)
       // reveals the flyer; button(s) below then open the real link(s).
       wrap.id = `station-${i}`;
+      const hasLink = s.url || s.links;
       const buttonsHtml = s.links
         ? s.links.map(l => `<a class="open-link" href="${l.url}" target="_blank" rel="noopener noreferrer">${l.label}</a>`).join('')
-        : `<a class="open-link" href="${s.url}" target="_blank" rel="noopener noreferrer">Open link ↗</a>`;
+        : (s.url ? `<a class="open-link" href="${s.url}" target="_blank" rel="noopener noreferrer">Open link ↗</a>` : '');
       wrap.innerHTML = `
         <button class="station-head" type="button" aria-expanded="false">
           ${logoHtml}
@@ -379,8 +381,7 @@
           <div class="preview-inner">
             <img src="${s.flyer}" alt="${s.label} flyer" loading="lazy">
             <p class="save-hint">Press and hold the flyer to save it to your phone</p>
-            <p class="links-hint">↓ Links from the QR codes above</p>
-            <div class="link-row">${buttonsHtml}</div>
+            ${hasLink ? `<p class="links-hint">↓ Links from the QR codes above</p><div class="link-row">${buttonsHtml}</div>` : ''}
           </div>
         </div>
       `;
