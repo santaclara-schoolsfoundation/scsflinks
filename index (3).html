@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santa Clara Schools Foundation — Community Links</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=EB+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EDEDED;
+    --panel: #FBFBFA;
+    --panel-hover: #F2F5FA;
+    --navy: #2F5590;
+    --navy-dark: #1F3A66;
+    --rule: #9AA6B4;
+    --text: #1A1A1A;
+    --muted: #6E6E6E;
+    --hairline: #D6D6D6;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 56px 20px;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  /* ---- Header / wordmark ---- */
+  .header {
+    text-align: center;
+  }
+
+  .wordmark {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 76px;
+    color: var(--navy);
+    line-height: 1;
+    margin: 0;
+    border-top: 2px solid var(--rule);
+    border-bottom: 2px solid var(--rule);
+    padding: 6px 0;
+    letter-spacing: 0.01em;
+  }
+
+  .subname {
+    font-family: 'Playfair Display', serif;
+    font-variant: small-caps;
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: 0.06em;
+    color: #8A8A8A;
+    margin: 10px 0 0 0;
+  }
+
+  .tagline {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 17px;
+    color: #4A4A4A;
+    margin: 18px 0 0 0;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  /* ---- Section label ---- */
+  .section-label {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--navy);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* ---- Links list ---- */
+  .stations {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .station {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  .station::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--navy);
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+    z-index: 1;
+  }
+
+  .station:hover,
+  .station.open {
+    background: var(--panel-hover);
+    border-color: var(--navy);
+  }
+
+  .station:hover::before,
+  .station.open::before {
+    transform: scaleY(1);
+  }
+
+  .station-head {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 16px 20px;
+    cursor: pointer;
+    color: var(--text);
+  }
+
+  .station .logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    border: 1px solid var(--hairline);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    overflow: hidden;
+  }
+
+  .station .logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .station .logo.mono {
+    background: var(--navy);
+    border: none;
+  }
+
+  .station .logo.mono span {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: #FFFFFF;
+  }
+
+  .station .info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .station .info .label {
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: var(--navy-dark);
+  }
+
+  .station .info .desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .station .chev {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.25s ease, color 0.2s ease;
+  }
+
+  .station:hover .chev,
+  .station.open .chev {
+    color: var(--navy);
+  }
+
+  .station.open .chev {
+    transform: rotate(180deg);
+  }
+
+  /* ---- Flyer preview panel ---- */
+  .preview {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .station.open .preview {
+    max-height: 900px;
+  }
+
+  .preview-inner {
+    padding: 0 20px 20px 20px;
+  }
+
+  .preview-inner img {
+    display: block;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--hairline);
+    margin-bottom: 8px;
+    -webkit-touch-callout: default;
+    -webkit-user-select: auto;
+    user-select: auto;
+  }
+
+  .save-hint {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 14px 0;
+  }
+
+  .links-hint {
+    font-family: 'Playfair Display', serif;
+    font-variant: small-caps;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    color: var(--navy);
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .link-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .open-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    font-variant: small-caps;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    padding: 10px 18px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+
+  .open-link:hover {
+    background: var(--navy-dark);
+  }
+
+  /* ---- Footer ---- */
+  .footer {
+    text-align: center;
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline);
+  }
+
+  @media (max-width: 480px) {
+    .wordmark { font-size: 54px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="header">
+    <h1 class="wordmark">SCSF</h1>
+    <p class="subname">Santa Clara Schools Foundation</p>
+    <p class="tagline">Serving the students, staff, and community of SCUSD since 1992.</p>
+  </div>
+
+  <p class="section-label">Community Links</p>
+
+  <div class="stations" id="stationList"></div>
+
+  <div class="footer">SANTA CLARA SCHOOLS FOUNDATION · SUPPORT LOCAL STUDENTS &amp; TEACHERS</div>
+
+</div>
+
+<script>
+  // ---------------------------------------------------------
+  // EDIT THIS LIST to add, remove, or reorder SCSF's links.
+  // ---------------------------------------------------------
+  const stations = [
+    { label: "Santa Clara Schools Foundation", desc: "Our official website — impact, partners, and how to give", url: "https://www.santaclaraschoolsfoundation.org/" },
+    { label: "Bay FC: Back to School Match", desc: "Aug 23, 2026 at PayPal Park — SCUSD staff discount, tickets via Tixr", logo: "logos/bayfc.png", flyer: "flyers/bayfc.jpg",
+      links: [
+        { label: "Buy Tickets ↗", url: "https://www.tixr.com/groups/bayfc/sales/-638" },
+        { label: "Enter Raffle ↗", url: "https://forms.gle/6vkTFmNFmUaRdosP9" },
+      ]
+    },
+    { label: "San Jose Giants: Pack the Park", desc: "Aug 29, 2026 at Excite Ballpark — use code SCSF, $21 tickets", url: "https://mlb.tickets.com/schedule/?agency=MILB_MPV&orgid=56749#/sales_group_code;salesGroupId=12960", logo: "logos/sj-giants.png", flyer: "flyers/sj-giants.jpg" },
+    { label: "Mountain Mike's Pizza",        desc: "Class parties, staff meetings & school fundraising nights, year-round", logo: "logos/mountain-mikes.png", flyer: "flyers/mountain-mikes.jpg",
+      links: [
+        { label: "Fundraising Info ↗", url: "https://www.mountainmikespizza.com/fundraising/" },
+        { label: "Enter Raffle ↗", url: "https://docs.google.com/forms/d/e/1FAIpQLScn1dFWnQDlfDHinUsRZ1Ohsy7LiiVgskT7eCD2twjtkM1waA/viewform" },
+      ]
+    },
+    { label: "Monster Dash & Bash 5K",       desc: "Mission College Halloween 5K, Saturday, Oct 10, 2026", url: "https://missioncollege.edu/student-services/outreach/5k.html", logo: "logos/mission-college.png", flyer: "flyers/mission-college.jpg" },
+    { label: "The Firehouse Run",            desc: "5K/10K at Mission College, Nov 15, 2026 — code SCUSD2026 for 20% off", url: "https://raceroster.com/events/2026/139445/firehouse-run-2026", logo: "logos/firehouse.png", flyer: "flyers/firehouse.jpg" },
+    { label: "Mission City FCU",             desc: "$200 new-member offer & 0% APR classroom-supply loans for SCUSD staff", url: "https://www.missioncityfcu.org/community/", logo: "logos/mission-city-fcu.png", flyer: "flyers/mission-city-fcu.jpg" },
+    { label: "49ers Tickets Raffle",         desc: "Enter for a chance to win 49ers tickets", url: "https://docs.google.com/forms/d/e/1FAIpQLSdCmCbxexmPAdHzSXAJ-UqYp0Iqj604IK6bubbDD5CY4Xh4Bw/viewform?usp=preview", logo: "logos/49ers.png" },
+    { label: "Columbia Employee Store",      desc: "40% off Columbia, SOREL, Mountain Hardwear & prAna — Aug 7–30 in Union City, bring this pass + proof of affiliation, up to 4 guests", logo: "logos/columbia.png", flyer: "flyers/columbia-flyer.jpg" },
+  ];
+
+  const list = document.getElementById('stationList');
+
+  stations.forEach((s, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'station';
+
+    const logoHtml = s.logo
+      ? `<span class="logo"><img src="${s.logo}" alt="${s.label} logo"></span>`
+      : `<span class="logo mono"><span>${s.label.trim().charAt(0).toUpperCase()}</span></span>`;
+
+    if (s.flyer) {
+      // Card with expandable flyer preview: hover (desktop) or tap (mobile)
+      // reveals the flyer; button(s) below then open the real link(s).
+      wrap.id = `station-${i}`;
+      const hasLink = s.url || s.links;
+      const buttonsHtml = s.links
+        ? s.links.map(l => `<a class="open-link" href="${l.url}" target="_blank" rel="noopener noreferrer">${l.label}</a>`).join('')
+        : (s.url ? `<a class="open-link" href="${s.url}" target="_blank" rel="noopener noreferrer">Open link ↗</a>` : '');
+      wrap.innerHTML = `
+        <button class="station-head" type="button" aria-expanded="false">
+          ${logoHtml}
+          <span class="info">
+            <div class="label">${s.label}</div>
+            <div class="desc">${s.desc}</div>
+          </span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="preview">
+          <div class="preview-inner">
+            <img src="${s.flyer}" alt="${s.label} flyer" loading="lazy">
+            <p class="save-hint">Press and hold the flyer to save it to your phone</p>
+            ${hasLink ? `<p class="links-hint">↓ Links from the QR codes above</p><div class="link-row">${buttonsHtml}</div>` : ''}
+          </div>
+        </div>
+      `;
+      const head = wrap.querySelector('.station-head');
+      const openIt = () => { wrap.classList.add('open'); head.setAttribute('aria-expanded', 'true'); };
+      const closeIt = () => { wrap.classList.remove('open'); head.setAttribute('aria-expanded', 'false'); };
+      // Desktop: reveal on hover
+      wrap.addEventListener('mouseenter', openIt);
+      wrap.addEventListener('mouseleave', closeIt);
+      // Mobile / click: toggle reveal, then a second tap on "Open link" confirms navigation
+      head.addEventListener('click', () => {
+        wrap.classList.contains('open') ? closeIt() : openIt();
+      });
+    } else {
+      // No flyer on file — plain direct link
+      const a = document.createElement('a');
+      a.className = 'station-head';
+      a.style.textDecoration = 'none';
+      a.href = s.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.innerHTML = `
+        ${logoHtml}
+        <span class="info">
+          <div class="label">${s.label}</div>
+          <div class="desc">${s.desc}</div>
+        </span>
+        <span class="chev">↗</span>
+      `;
+      wrap.appendChild(a);
+    }
+
+    list.appendChild(wrap);
+  });
+</script>
+
+</body>
+</html>
